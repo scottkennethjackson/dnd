@@ -23,6 +23,24 @@ html {
     text-transform: uppercase;
 }
 
+button {
+    margin: .5rem auto;
+    border-radius: .5rem;
+    padding: 1rem;
+    font-weight: bold;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: red;
+}
+
+button:active {
+    background-color: #e60000;
+}
+
 /* Banner Styling */
 .banner {
     margin: .5rem auto;
@@ -42,22 +60,62 @@ html {
     flex-direction: column;
 }
 
-button {
+.menu-btn {
     width: 12rem;
-    margin: .5rem auto;
     border: 1px solid red;
-    border-radius: .5rem;
-    padding: 1rem;
-    font-weight: bold;
-    color: inherit;
-    background-color: transparent;
-    cursor: pointer;
 }
 
-button:hover {
+/* Randomiser Styling*/
+.randomiser {
+    margin: .5rem auto;
+    min-height: 10rem;
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid red;
+    padding: 1rem;
+}
+
+#beast {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+#link {
+    color: inherit;
+    text-decoration: none;
+}
+
+#link:hover,
+#link:focus {
+    text-decoration: underline;
+}
+
+#link:active {
+    color: #979AA4
+}
+
+.beast-radio {
+    display: flex;
+    justify-content: center;
+    color: #979AA4;
+}
+
+.beast-type {
+    padding: 0 1rem;
+}
+
+input[type=radio] {
+    accent-color: red;
+}
+
+/* Roll Button Styling */
+#roll-btn {
+    border: none;
     background-color: red;
 }
 
-button:active {
+#roll-btn:active {
     background-color: #e60000;
 }
