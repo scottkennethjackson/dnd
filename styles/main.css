@@ -115,7 +115,15 @@ input[type=radio] {
     }
 }
 
-/* Roll Button Styling */
+/* Button Styling */
+.home-btn {
+    height: 1.5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+}
+
 #roll-btn {
     border: none;
     background-color: red;
