@@ -82,7 +82,7 @@ button:active {
     padding: 1rem;
 }
 
-#beast {
+.subtitle {
     font-size: 2rem;
     font-weight: bold;
 }
