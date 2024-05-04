@@ -19,8 +19,9 @@ html {
     background-color: black;
 }
 
-.uppercase {
-    text-transform: uppercase;
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 button {
@@ -39,6 +40,10 @@ button:hover {
 
 button:active {
     background-color: #e60000;
+}
+
+.uppercase {
+    text-transform: uppercase;
 }
 
 /* Banner Styling */
@@ -82,13 +87,7 @@ button:active {
     font-weight: bold;
 }
 
-#link {
-    color: inherit;
-    text-decoration: none;
-}
-
-#link:hover,
-#link:focus {
+#link:hover {
     text-decoration: underline;
 }
 
