@@ -1,0 +1,14 @@
+/* Universal Styles */
+* {
+    margin: 0;
+    box-sizing: border-box;
+    /*border: 1px solid red;*/
+}
+
+html {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    background-color: black;
+}
