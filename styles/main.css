@@ -2,13 +2,62 @@
 * {
     margin: 0;
     box-sizing: border-box;
-    /*border: 1px solid red;*/
+    /*border: 1px dotted red;*/
 }
 
 html {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     font-family: 'Noto Sans', sans-serif;
     font-size: 16px;
     text-align: center;
     color: white;
     background-color: black;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+/* Banner Styling */
+.banner {
+    margin: .5rem auto;
+}
+
+.logo {
+    height: 6rem;
+}
+
+.title {
+    color: #979AA4;
+}
+
+/* Menu Styling*/
+.menu {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    width: 12rem;
+    margin: .5rem auto;
+    border: 1px solid red;
+    border-radius: .5rem;
+    padding: 1rem;
+    font-weight: bold;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: red;
+}
+
+button:active {
+    background-color: #e60000;
 }
