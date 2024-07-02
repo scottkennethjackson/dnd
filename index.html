@@ -6,31 +6,37 @@
         <meta name="author" content="Scott Kenneth Jackson">
         <meta name="description" content="A collection of DM tools for Dungeons & Dragons">
 
-        <title>D&D DM Tools</title>
+        <title>Scott Kenneth Jackson | D&D DM Tools</title>
 
         <link rel="apple-touch-icon" sizes="180x180" href="./images/favicon_io/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon_io/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon_io/favicon-16x16.png">
-        <link rel="manifest" href="./images/favicon.io/site.webmanifest">
+        <link rel="manifest" href="./images/favicon_io/site.webmanifest">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap">
-        <link rel="stylesheet" href="./styles/main.css">
+        <link rel="stylesheet" href="./styles/global.css">
     </head>
-    <body>
-        <div class="banner">
-            <img src="./images/logo.png" class="logo" alt="D&D">
-            <h1 class="title uppercase">DM Tools</h1>
+    <body class="fixed flex-center flex-col fill-space padding">
+        <div class="flex-center flex-col margin-bottom">
+            <img src="./images/logo.png" id="logo" alt="D&D">
+            <h1 class="uppercase text-center text-grey font-lg">DM Tools</h1>
         </div>
 
-        <div class="menu">
-            <a href="https://scottkennethjackson.github.io/dnd/tools/beast-generator">
-                <button class="menu-btn uppercase" role="button">Beast Generator</button>
+        <div class="flex-col">
+            <a href="https://scottkennethjackson.github.io/dnd/tools/beast-generator" class="margin-bottom">
+                <button class="btn">Beast Generator</button>
             </a>
+
             <a href="https://scottkennethjackson.github.io/dnd/tools/loot-generator">
-                <button class="menu-btn uppercase" role="button">Loot Generator</button>
+                <button class="btn">Loot Generator</button>
             </a>
         </div>
     </body>
+    <footer>
+        <script src="./scripts/npc-arrays.js"></script>
+        <script src="./scripts/spell-arrays.js"></script>
+        <script src="./scripts/npc-rolls.js"></script>
+    </footer>
 </html>
