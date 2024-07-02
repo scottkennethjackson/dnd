@@ -1,0 +1,207 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    /*border: 1px dotted pink;*/
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 16px;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    color: red;
+    cursor: pointer;
+}
+
+a:active {
+    color: #e60000;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.border-red {
+    border: 1px solid red;
+}
+
+.break {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    border: 1px solid red;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    width: 100%;
+    height: 100%;
+    font-weight: 700;
+}
+
+.btn:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+.btn:active {
+    background-color: #e60000;
+}
+
+.decoration-none {
+    text-decoration: none;
+}
+
+.fill-space {
+    width: 100%;
+    height: 100%;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-around {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.font-xs {
+    font-size: .5rem;
+}
+
+.font-sm {
+    font-size: .75rem;
+}
+
+.font-md {
+    font-size: 1.5rem;
+}
+
+.font-lg {
+    font-size: 2rem;
+}
+
+.font-xl {
+    font-size: 2.5rem;
+}
+
+.font-xxl {
+    font-size: 3rem;
+}
+
+input[type=radio] {
+    accent-color: red;
+}
+
+#logo {
+    height: 8rem;
+}
+
+.margin {
+    margin: 1rem;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+.margin-bottom {
+    margin-bottom: 1rem;
+}
+
+.margin-top {
+    margin-top: 1rem;
+}
+
+.margin-x {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.max-w-sm {
+    max-width: 640px;
+}
+
+.padding {
+    padding: 1rem;
+}
+
+.padding-yxx {
+    padding: 1rem 2rem;
+}
+
+.padding-yyxx {
+    padding: 2rem;
+}
+
+.relative {
+    position: relative;
+}
+
+#roll-btn {
+    border: 1px solid red;
+    background-color: red;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+#roll-btn:hover {
+    cursor: pointer;
+}
+
+#roll-btn:active {
+    background-color: #e60000;
+}
+
+.svg-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    fill: #979aa4;
+}
+
+.svg-btn:hover {
+    fill: red;
+    cursor: pointer;
+}
+
+.svg-btn:active {
+    fill: #e60000;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-grey {
+    color: #979aa4;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.w-full {
+    width: 100%;
+}
