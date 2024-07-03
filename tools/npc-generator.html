@@ -16,9 +16,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap">
     <link rel="stylesheet" href="../styles/global.css">
   </head>
-  <body class="fixed flex-center flex-col fill-space padding">
+  <body class="flex-center flex-col fill-space min-h-screen padding-yyyyyx">
     <a href="https://scottkennethjackson.github.io/dnd/" role="button">
       <svg xmlns="http://www.w3.org/2000/svg" class="svg-btn" height="32" width="36" viewBox="0 0 576 512"><path d="M576 287.6H511.8l1 224.4H472 456 352V352H224V512H120 104 64.1V474.8c-.1-.9-.1-1.8-.1-2.8V360c0-.9 0-1.9 .1-2.8V287.6H0V240L288.4 0 416 106.5V32h96V186.6L576 240v47.6z"/></svg>
     </a>
@@ -28,13 +29,118 @@
       <h1 class="uppercase text-center text-grey font-lg">NPC Generator</h1>
     </div>
 
-    <div class="flex-center flex-col margin-bottom border-red w-full max-w-sm padding-yyxx"></div>
+    <div class="flex-center flex-col margin-bottom border-red w-full max-w-sm padding-yyx">
+      <h2 id="prompt" class="text-center font-serif font-lg">Select NPC Level</h2>
+
+      <div id="statblock" class="hidden">
+        <div class="flex-col margin-bottom w-full">
+          <div class="hr-thick-red">
+            <span id="npc-name"></span>
+            <span id="description"></span>
+          </div>
+
+          <div class="return-sm hr-thick-red">
+            <span id="ac"></span>
+            <span id="hp"></span>
+            <span id="movement"></span>
+          </div>
+
+          <div class="sm-flex-row return-sm hr-thick-red">
+            <div class="flex-center justify-between break-sm sm-break-none sm-w-half">
+              <div class="w-third text-center">
+                <p class="bold">STR</p>
+                <span id="str-stats"></span>
+              </div>
+
+              <div class="w-third text-center">
+                <p class="bold">DEX</p>
+                <span id="dex-stats"></span>
+              </div>
+
+              <div class="w-third text-center">
+                <p class="bold">CON</p>
+                <span id="con-stats"></span>
+              </div>
+            </div>
+
+            <div class="flex-center justify-between sm-w-half">
+              <div class="w-third text-center">
+                <p class="bold">INT</p>
+                <span id="int-stats"></span>
+              </div>
+
+              <div class="w-third text-center">
+                <p class="bold">WIS</p>
+                <span id="wis-stats"></span>
+              </div>
+
+              <div class="w-third text-center">
+                <p class="bold">CHA</p>
+                <span id="cha-stats"></span>
+              </div>
+            </div>
+          </div> 
+          
+          <div class="return-sm hr-thick-red">
+            <span id="saving-throws"></span>
+            <span id="skills"></span>
+            <span id="dmg-resistance"></span>
+            <span id="senses"></span>
+            <span id="lang"></span>
+            <span id="prof-bonus"></span>
+          </div>
+
+          <div id="feat-section" class="hidden return-sm hr-thick-red">
+            <span id="stealth-disadvantage"></span>
+            <span id="racial-feature"></span>
+            <span id="bonus-feature"></span>
+            <span id="magic-resistance"></span>
+            <span id="spellcasting-feature"></span>
+            <span id="spell-list"></span>
+          </div>
+
+          <div class="return-sm">
+            <h3 class="break-sm hr-red font-md">Actions</h3>
+            <span id="multiattack"></span>
+            <span id="melee-attack"></span>
+            <span id="ranged-attack"></span>
+          </div>
+
+          <div id="reaction-section" class="hidden return-sm">
+            <h3 class="break-sm hr-red font-md">Reactions</h3>
+            <span id="move-reaction"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-center return-sm">
+        <div class="npc-level flex-center space-xs xs-space-sm sm-space">
+            <input type="radio" id="commoner" name="npc" value="commoner" checked />
+            <label class="tab-xs xs-tab-sm text-grey" for="commoner">Commoner</label>
+        </div>
+
+        <div class="npc-level flex-center space-xs xs-space-sm sm-space tab-xs xs-tab-sm sm-tab">
+            <input type="radio" id="adventurer" name="npc" value="adventurer" />
+            <label class="tab-xs xs-tab-sm text-grey" for="adventurer">Adventurer</label>
+        </div>
+
+        <div class="npc-level flex-center space-xs xs-space-sm sm-space tab-xs xs-tab-sm sm-tab">
+            <input type="radio" id="hero" name="npc" value="hero" />
+            <label class="tab-xs xs-tab-sm text-grey" for="hero">Hero</label>
+        </div>
+
+        <div class="npc-level flex-center tab-xs xs-tab-sm sm-tab">
+          <input type="radio" id="legend" name="npc" value="legend" />
+          <label class="tab-xs xs-tab-sm text-grey" for="legend">Legend</label>
+        </div>
+      </div>
+    </div>
     
     <button id="roll-btn" class="margin-top">Roll</button>
   </body>
   <footer>
     <script src="../scripts/npc-arrays.js"></script>
     <script src="../scripts/spell-arrays.js"></script>
-    <script src="../scripts/npc-rolls.js"></script>
+    <script src="../scripts/npc-generator.js"></script>
 </footer>
 </html>
