@@ -7,6 +7,7 @@ let raceRoll;
 let race;
 let subraceRoll;
 let subrace;
+let characterName;
 let size;
 let speed;
 let racialFeat;
@@ -40,8 +41,10 @@ let proficiencyRoll2;
 let proficiency2;
 let skillRoll1;
 let skill1;
+let skill1Mod;
 let skillRoll2;
 let skill2;
+let skill2Mod;
 let save1;
 let save2;
 let passivePerception;
@@ -105,14 +108,45 @@ let rangedDamageType;
 let meleeAction;
 let rangedAction;
 let savingThrow;
+let baseAC;
 let hasShield;
 let sneakAttackDamageDice;
 let hasInitiative;
 let isCooperative;
 let hasMultiattack;
-let multiattack;
 let hasReaction;
 let reaction;
+let statblockActive;
+
+const npcName = document.getElementById('npc-name');
+const description = document.getElementById('description');
+const ac = document.getElementById('ac');
+const hp = document.getElementById('hp');
+const movement = document.getElementById('movement');
+const strStats = document.getElementById('str-stats');
+const dexStats = document.getElementById('dex-stats');
+const conStats = document.getElementById('con-stats');
+const intStats = document.getElementById('int-stats');
+const wisStats = document.getElementById('wis-stats');
+const chaStats = document.getElementById('cha-stats');
+const savingThrows = document.getElementById('saving-throws');
+const skills = document.getElementById('skills');
+const dmgResistance = document.getElementById('dmg-resistance');
+const senses = document.getElementById('senses');
+const lang = document.getElementById('lang');
+const profBonus = document.getElementById('prof-bonus');
+const featSection = document.getElementById('feat-section');
+const stealthDisadvantage = document.getElementById('stealth-disadvantage');
+const racialFeature = document.getElementById('racial-feature');
+const bonusFeature = document.getElementById('bonus-feature');
+const magicResistance = document.getElementById('magic-resistance');
+const spellcastingFeature = document.getElementById('spellcasting-feature');
+const spellList = document.getElementById('spell-list');
+const multiattack = document.getElementById('multiattack');
+const meleeAttack = document.getElementById('melee-attack');
+const rangedAttack = document.getElementById('ranged-attack');
+const reactionSection = document.getElementById('reaction-section');
+const moveReaction = document.getElementById('move-reaction');
 
 const rollD20 = () => {
     return Math.ceil(Math.random() * 20);
@@ -127,8 +161,27 @@ const rollMultiple = (numRolls, diceValue) => {
 };
 
 const rollNPC = () => {
-    // Get NPC level [commoner (1-4), adventurer (5-10), hero (11-16), legend (17-20)]
-    level = rollD20();
+    const commonerRadio = document.getElementById('commoner');
+    const adventurerRadio = document.getElementById('adventurer');
+    const heroRadio = document.getElementById('hero');
+    const legendRadio = document.getElementById('legend');
+
+    const rollLevel = () => {
+        // Get NPC level
+        if (commonerRadio.checked) {
+            roll = Math.ceil(Math.random() * 4);
+        } else if (adventurerRadio.checked) {
+            roll = Math.ceil(Math.random() * 6) + 4;
+        } else if (heroRadio.checked) {
+            roll = Math.ceil(Math.random() * 6) + 10;
+        } else if (legendRadio.checked) {
+            roll = Math.ceil(Math.random() * 4) + 16;
+        };
+
+        level = roll;
+    };
+    
+    rollLevel();
 
     if (level == 8 || level == 11 || level == 18) {
         determiner = "an";
@@ -163,7 +216,7 @@ const rollNPC = () => {
 
     getProficiencyBonus();
 
-    // Get race and racial traits
+    // Get name, race and racial traits
     const getRace = () => {
         raceRoll = Math.floor(Math.random() * races.length);
         race = races[raceRoll][0];
@@ -177,6 +230,43 @@ const rollNPC = () => {
 
         if (!subrace) {
             subrace = race;
+        };
+
+        const getName = (array) => {
+            roll = Math.floor(Math.random() * array.length);
+            characterName = array[roll];
+        };
+
+        if (race == 'Dragonborn') {
+            getName(dragonbornNames);
+        };
+
+        if (race == 'Dwarf') {
+            getName(dwarfNames);
+        };
+
+        if (race == 'Elf' || race == 'Half-Elf') {
+            getName(elfNames);
+        };
+
+        if (race == 'Gnome') {
+            getName(gnomeNames);
+        };
+
+        if (race == 'Halfling') {
+            getName(halflingNames);
+        };
+
+        if (race == 'Human') {
+            getName(humanNames);
+        };
+
+        if (race == 'Half-Orc') {
+            getName(orcNames);
+        };
+
+        if (race == 'Tiefling') {
+            getName(tieflingNames);
         };
         
         size = races[raceRoll][2];
@@ -311,6 +401,7 @@ const rollNPC = () => {
 
             if ((proficiency1 == 'Strength' && proficiency2 == 'Constitution') || (proficiency1 == 'Constitution' && proficiency2 == 'Strength')) {
                 skill1 = 'Athletics';
+                skill1Mod = +strMod + proficiencyBonus;
             } else if (proficiency1 == 'Constitution') {
                 do {
                     rollSkills(proficiencyRoll2, proficiencyRoll2)
@@ -321,6 +412,38 @@ const rollNPC = () => {
                 } while (proficiency1 == proficiency2);
             } else {
                 rollSkills(proficiencyRoll1, proficiencyRoll2);
+            };
+
+            switch (proficiency1) {
+                case 'Strength': skill1Mod = +strMod + proficiencyBonus;
+                break;
+                case 'Dexterity': skill1Mod = +dexMod + proficiencyBonus;
+                break;
+                case 'Intelligence': skill1Mod = +intMod + proficiencyBonus;
+                break;
+                case 'Wisdom': skill1Mod = +wisMod + proficiencyBonus;
+                break;
+                case 'Charisma': skill1Mod = +chaMod + proficiencyBonus;
+                break;
+            };
+        
+            switch (proficiency2) {
+                case 'Strength': skill2Mod = +strMod + proficiencyBonus;
+                break;
+                case 'Dexterity': skill2Mod = +dexMod + proficiencyBonus;
+                break;
+                case 'Intelligence': skill2Mod = +intMod + proficiencyBonus;
+                break;
+                case 'Wisdom': skill2Mod = +wisMod + proficiencyBonus;
+                break;
+                case 'Charisma': skill2Mod = +chaMod + proficiencyBonus;
+                break;
+            };
+
+            if (proficiency1 == 'Constitution') {
+                skill1Mod = skill2Mod;
+            } else if (proficiency2 == 'Constitution') {
+                skill2Mod = skill1Mod;
             };
         };
 
@@ -529,48 +652,48 @@ const rollNPC = () => {
             spellToHit = getSpellToHit(+wisMod);
         };
 
-        spellcasting = `<strong>Spellcasting.</strong> The ${race} is ${determiner} ${level}${suffix}-level spellcaster. Its spellcasting ability is ${spellcastingAbility} (spell save DC ${spellSaveDC}, +${spellToHit} to hit with spell attacks). The ${race} has the following spells prepared:`;
+        spellcasting = `<strong>Spellcasting.</strong> The ${race} is ${determiner} ${level}${suffix}-level spellcaster. Its spellcasting ability is ${spellcastingAbility} (spell save DC ${spellSaveDC}, +${spellToHit} to hit with spell attacks). They have the following spells prepared:`;
 
         if (level == 1) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}</span>1st level (2 slots): ${firstLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}</p><p>1st level (2 slots): ${firstLevel1}</p>`;
         } else if (level == 2) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}</span>1st level (3 slots): ${firstLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}</p><p>1st level (3 slots): ${firstLevel1}</p>`;
         } else if (level == 3) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}</span><span class="break">1st level (4 slots): ${firstLevel1}</span>2nd level (2 slots): ${secondLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}</p><p>2nd level (2 slots): ${secondLevel1}</p>`;
         } else if (level == 4) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</span>2nd level (3 slots): ${secondLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</p><p>2nd level (3 slots): ${secondLevel1}</p>`;
         } else if (level == 5) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</span><span class="break">2nd level (3 slots): ${secondLevel1}</span>3rd level (2 slots): ${thirdLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}</p><p>3rd level (2 slots): ${thirdLevel1}</p>`;
         } else if (level == 6) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span>3rd level (3 slots): ${thirdLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p>3rd level (3 slots): ${thirdLevel1}</p>`;
         } else if (level == 7) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span><span class="break">3rd level (3 slots): ${thirdLevel1}</span>4th level (1 slot): ${fourthLevel1}`;
+            spells = `<p class="break-smp">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}</p><p>4th level (1 slot): ${fourthLevel1}</p>`;
         } else if (level == 8) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span><span class="break">3rd level (3 slots): ${thirdLevel1}</span>4th level (2 slots): ${fourthLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}</p><p>4th level (2 slots): ${fourthLevel1}</p>`;
         } else if (level == 9) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span><span class="break">3rd level (3 slots): ${thirdLevel1}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span>5th level (1 slot): ${fifthLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}</p><p class="break-sm"><p>4th level (3 slots): ${fourthLevel1}</p>5th level (1 slot): ${fifthLevel1}</p>`;
         } else if (level == 10) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span>5th level (2 slots): ${fifthLevel1}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}</p><p>5th level (2 slots): ${fifthLevel1}</p>`;
         } else if (level == 11) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span><span class="break">5th level (2 slots): ${fifthLevel1}</span>6th level (1 slot): ${sixthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}</p><p class="break-sm">5th level (2 slots): ${fifthLevel1}</p><p>6th level (1 slot): ${sixthLevel}</p>`;
         } else if (level == 12) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span><span class="break">5th level (2 slots): ${fifthLevel1}</span>6th level (1 slot): ${sixthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}</p><p class="break-sm">5th level (2 slots): ${fifthLevel1}</p><p>6th level (1 slot): ${sixthLevel}</p>`;
         } else if (level == 13) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span><span class="break">5th level (2 slots): ${fifthLevel1}</span><span class="break">6th level (1 slot): ${sixthLevel}</span>7th level (1 slot): ${seventhLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}</p><p class="break-sm">5th level (2 slots): ${fifthLevel1}</p><p class="break-sm">6th level (1 slot): ${sixthLevel}</p><p>7th level (1 slot): ${seventhLevel}</p>`;
         } else if (level == 14) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span><span class="break">5th level (2 slots): ${fifthLevel1}</span><span class="break">6th level (1 slot): ${sixthLevel}</span>7th level (1 slot): ${seventhLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}</p><p class="break-sm">5th level (2 slots): ${fifthLevel1}</p><p class="break-sm">6th level (1 slot): ${sixthLevel}</p><p>7th level (1 slot): ${seventhLevel}</p>`;
         } else if (level == 15) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span><span class="break">5th level (2 slots): ${fifthLevel1}</span><span class="break">6th level (1 slot): ${sixthLevel}</span><span class="break">7th level (1 slot): ${seventhLevel}</span>8th level (1 slot): ${eigthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}</p><p class="break-sm">5th level (2 slots): ${fifthLevel1}</p><p class="break-sm">6th level (1 slot): ${sixthLevel}</p><p class="break-sm"><p>7th level (1 slot): ${seventhLevel}</p>8th level (1 slot): ${eigthLevel}</p>`;
         } else if (level == 16) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}</span><span class="break">5th level (2 slots): ${fifthLevel1}</span><span class="break">6th level (1 slot): ${sixthLevel}</span><span class="break">7th level (1 slot): ${seventhLevel}</span>8th level (1 slot): ${eigthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}</p><p class="break-sm">5th level (2 slots): ${fifthLevel1}</p><p class="break-sm">6th level (1 slot): ${sixthLevel}</p><p class="break-sm">7th level (1 slot): ${seventhLevel}</p><p>8th level (1 slot): ${eigthLevel}</p>`;
         } else if (level == 17) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</span><span class="break">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}</span><span class="break">5th level (2 slots): ${fifthLevel1}</span><span class="break">6th level (1 slot): ${sixthLevel}</span><span class="break">7th level (1 slot): ${seventhLevel}</span><span class="break">8th level (1 slot): ${eigthLevel}</span>9th level (1 slot): ${ninthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}</p><p class="break-sm">5th level (2 slots): ${fifthLevel1}</p><p class="break-sm">6th level (1 slot): ${sixthLevel}</p><p class="break-sm">7th level (1 slot): ${seventhLevel}</p><p class="break-sm">8th level (1 slot): ${eigthLevel}</p><p>9th level (1 slot): ${ninthLevel}</p>`;
         } else if (level == 18) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}, ${thirdLevel3}</span><span class="break">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}</span><span class="break">5th level (3 slots): ${fifthLevel1}</span><span class="break">6th level (1 slot): ${sixthLevel}</span><span class="break">7th level (1 slot): ${seventhLevel}</span><span class="break">8th level (1 slot): ${eigthLevel}</span>9th level (1 slot): ${ninthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}, ${thirdLevel3}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}</p><p class="break-sm">5th level (3 slots): ${fifthLevel1}</p><p class="break-sm">6th level (1 slot): ${sixthLevel}</p><p class="break-sm">7th level (1 slot): ${seventhLevel}</p><p class="break-sm">8th level (1 slot): ${eigthLevel}</p><p>9th level (1 slot): ${ninthLevel}</p>`;
         } else if (level == 19) {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}, ${thirdLevel3}</span><span class="break">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}, ${fourthLevel3}</span><span class="break">5th level (3 slots): ${fifthLevel1}</span><span class="break">6th level (2 slots): ${sixthLevel}</span><span class="break">7th level (1 slot): ${seventhLevel}</span><span class="break">8th level (1 slot): ${eigthLevel}</span>9th level (1 slot): ${ninthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}, ${thirdLevel3}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}, ${fourthLevel3}</p><p class="break-sm">5th level (3 slots): ${fifthLevel1}</p><p class="break-sm">6th level (2 slots): ${sixthLevel}</p><p class="break-sm">7th level (1 slot): ${seventhLevel}</p><p class="break-sm">8th level (1 slot): ${eigthLevel}</p><p>9th level (1 slot): ${ninthLevel}</p>`;
         } else {
-            spells = `<span class="break">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</span><span class="break">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</span><span class="break">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</span><span class="break">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}, ${thirdLevel3}</span><span class="break">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}, ${fourthLevel3}</span><span class="break">5th level (3 slots): ${fifthLevel1}, ${fifthLevel2}</span><span class="break">6th level (2 slots): ${sixthLevel}</span><span class="break">7th level (2 slots): ${seventhLevel}</span><span class="break">8th level (1 slot): ${eigthLevel}</span>9th level (1 slot): ${ninthLevel}`;
+            spells = `<p class="break-sm">Cantrips (at will): ${cantrip1}, ${cantrip2}, ${cantrip3}, ${cantrip4}, ${cantrip5}</p><p class="break-sm">1st level (4 slots): ${firstLevel1}, ${firstLevel2}, ${firstLevel3}, ${firstLevel4}</p><p class="break-sm">2nd level (3 slots): ${secondLevel1}, ${secondLevel2}, ${secondLevel3}</p><p class="break-sm">3rd level (3 slots): ${thirdLevel1}, ${thirdLevel2}, ${thirdLevel3}</p><p class="break-sm">4th level (3 slots): ${fourthLevel1}, ${fourthLevel2}, ${fourthLevel3}</p><p class="break-sm">5th level (3 slots): ${fifthLevel1}, ${fifthLevel2}</p><p class="break-sm">6th level (2 slots): ${sixthLevel}</p><p class="break-sm">7th level (2 slots): ${seventhLevel}</p><p class="break-sm">8th level (1 slot): ${eigthLevel}</p><p>9th level (1 slot): ${ninthLevel}</p>`;
         };
 
         const getMagicResistance = () => {
@@ -719,6 +842,7 @@ const rollNPC = () => {
 
     // Get shield status and update armor class
     const addShield = () => {
+        baseAC = armorClass;
         armorClass = armorClass +=2;
     };
 
@@ -918,6 +1042,10 @@ const rollNPC = () => {
             break;
             default: check2ndProficiency();
         };
+
+        if (feat == racialFeat) {
+            hasFeat = false;
+        };
     };
 
     const getBonusActions = () => {
@@ -945,61 +1073,119 @@ const rollNPC = () => {
     if (!isSpellcaster) {
         getBonusActions();
     };
+
+    return
 };
 
-rollNPC();
+const generateStatblock = () => {
+    npcName.innerHTML = `<input type="text" class="border-none font-serif font-md bold" placeholder="Name Your NPC" value="${characterName}"></input>`;
+    description.innerHTML = `<p class="font-serif italic">${subrace} (${size} Humanoid), Any Alignment</p>`;
 
-// TEST LOG //
-console.log(`Level = ${level}`);
-console.log(`Race = ${race}`);
-console.log(`Subrace = ${subrace}`);
-console.log(`Size = ${size}`);
-console.log(`Speed = ${speed} ft.`);
-console.log(`Features = ${racialFeat}`);
-console.log(`Restistant against ${resistances} damage`);
-console.log(`Speaks, reads and writes ${languages}`);
-console.log(`Has darkvison = ${hasDarkvision}`);
-console.log(`STR = ${str} (${strMod})`);
-console.log(`DEX = ${dex} (${dexMod})`);
-console.log(`CON = ${con} (${conMod})`);
-console.log(`INT = ${int} (${intMod})`);
-console.log(`WIS = ${wis} (${wisMod})`);
-console.log(`CHA = ${cha} (${chaMod})`);
-console.log(`Armor = ${armorType}`);
-console.log(`Armor weight = ${armorWeight}`);
-console.log(`AC = ${armorClass}`);
-console.log(`STR Req. = ${strReq}`);
-console.log(`Stealth disadvantage = ${stealthDis}`);
-console.log(`HP = ${hitPoints}`);
-console.log(`Proficiency Bonus +${proficiencyBonus}`);
-console.log(`Proficiency 1 = ${proficiency1}`);
-console.log(`Proficiency 2 = ${proficiency2}`);
-console.log(`Skill 1 = ${skill1}`);
-console.log(`Skill 2 = ${skill2}`);
-console.log(`Saving Throws = ${save1}, ${save2}`);
-console.log(`Passive Perception ${passivePerception}`);
-console.log(`Spellcaster = ${isSpellcaster}`);
-console.log(spellcasting);
-console.log(spells);
-console.log(`Magic Resistance = ${hasMagicResistance}`);
-console.log(`Weapon Proficiency = ${weaponProficiency}`);
-console.log(`To Hit +${toHit}`);
-console.log(`Melee Weapon = ${meleeWeapon}`);
-console.log(`Reach = ${reach}`);
-console.log(`${meleeDamageDice} + ${proficiencyBonus} ${meleeDamageType} damage`);
-console.log(`Is Throwable = ${isThrowable}`);
-console.log(`Thrown Range = ${thrownRange}`);
-console.log(`Is Versatile = ${isVersatile}`);
-console.log(`Versatile Damage = ${versatileDamageDice} + ${proficiencyBonus} ${meleeDamageType}`);
-console.log(`${meleeAction}`);
-console.log(`Ranged Weapon = ${rangedWeapon}`);
-console.log(`Range = ${range}`);
-console.log(`${rangedDamageDice} + ${proficiencyBonus} ${rangedDamageType} damage`);
-console.log(`${rangedAction}`);
-console.log(`Is Two-Handed = ${isTwoHanded}`);
-console.log(`Has Shield = ${hasShield}`);
-console.log(`Has Multiattack = ${hasMultiattack}`);
-console.log(`Has feat = ${hasFeat}`)
-console.log(feat);
-console.log(`Has reaction = ${hasReaction}`)
-console.log(reaction);
+    if (hasShield) {
+        ac.innerHTML = `<p><span class="bold">Armor Class</span> ${baseAC} (${armorType}, ${armorClass} with Shield)</p>`;
+    } else {
+        ac.innerHTML = `<p><span class="bold">Armor Class</span> ${armorClass} (${armorType})</p>`;
+    };
+
+    hp.innerHTML = `<p><span class="bold">Hit Points</span> ${hitPoints}</p>`;
+    movement.innerHTML = `<p><span class="bold">Speed</span> ${speed} ft.</p>`;
+    strStats.innerHTML = `<p>${str} (${strMod})</p>`;
+    dexStats.innerHTML = `<p>${dex} (${dexMod})</p>`;
+    conStats.innerHTML = `<p>${con} (${conMod})</p>`;
+    intStats.innerHTML = `<p>${int} (${intMod})</p>`;
+    wisStats.innerHTML = `<p>${wis} (${wisMod})</p>`;
+    chaStats.innerHTML = `<p>${cha} (${chaMod})</p>`;
+    savingThrows.innerHTML = `<p><span class="bold">Saving Throws</span> ${save1}, ${save2}</p>`
+
+    if ((proficiency1 == 'Strength' && proficiency2 == 'Constitution') || (proficiency1 == 'Constitution' && proficiency2 == 'Strength')) {
+        skills.innerHTML = `<p><span class="bold">Skills</span> ${skill1} +${skill1Mod}</p>`;
+    } else {
+        skills.innerHTML = `<p><span class="bold">Skills</span> ${skill1} +${skill1Mod}, ${skill2} +${skill2Mod}</p>`;
+    };
+
+    if (resistances) {
+        dmgResistance.innerHTML = `<p><span class="bold">Damage Resistances</span> ${resistances}</p>`;
+    };
+
+    if (hasDarkvision) {
+        senses.innerHTML = `<p><span class="bold">Senses</span> Darkvision 60 ft., Passive Perception ${passivePerception}</p>`;
+    } else {
+        senses.innerHTML = `<p><span class="bold">Senses</span> Passive Perception ${passivePerception}</p>`;
+    };
+
+    lang.innerHTML = `<p><span class="bold">Languages</span> ${languages}</p>`;
+    profBonus.innerHTML = `<p><span class="bold">Proficiency Bonus</span> +${proficiencyBonus}</p>`;
+
+    if (stealthDis || racialFeat || feat || hasMagicResistance || isSpellcaster) {
+        featSection.classList.remove('hidden');
+    };
+
+    if (stealthDis) {
+        stealthDisadvantage.innerHTML = `<p class="break-sm"><strong>Stealth Disadvantage.</strong> The ${race} has disadvantage on Stealth checks and Dexterity saving throws.</p>`;
+    };
+
+    if (racialFeat) {
+        racialFeature.innerHTML = `<p class="break-sm">${racialFeat}</p>`;
+    };
+
+    if (feat) {
+        bonusFeature.innerHTML = `<p class="break-sm">${feat}</p>`;
+    };
+
+    if (hasMagicResistance) {
+        magicResistance.innerHTML = `<p class="break-sm"><strong>Magic Resistance.</strong> The ${race} has advantage on saving throws against spells and other magical effects.</p>`;
+    };
+
+    if (isSpellcaster) {
+        spellcastingFeature.innerHTML = `<p class="break-sm">${spellcasting}</p>`;
+        spellList.innerHTML = `<p class="break-sm">${spells}</p>`;
+    };
+
+    if (hasMultiattack) {
+        multiattack.innerHTML = `<p class="break-sm"><strong>Multiattack.</strong> The ${race} makes two <span class="lowercase">${meleeWeapon}</span> attacks.</p>`;
+    }
+
+    meleeAttack.innerHTML = `<p class="break-sm">${meleeAction}</p>`;
+    rangedAttack.innerHTML = `<p class="break-sm">${rangedAction}</p>`;
+
+    if (hasReaction) {
+        reactionSection.classList.remove('hidden');
+        moveReaction.innerHTML = `<p>${reaction}</p>`;
+    };
+};
+
+const resetStatblock = () => {
+    dmgResistance.innerHTML = '';
+    featSection.classList.add('hidden');
+    stealthDisadvantage.innerHTML = '';
+    racialFeature.innerHTML = '';
+    bonusFeature.innerHTML = '';
+    magicResistance.innerHTML = '';
+    spellcastingFeature.innerHTML = '';
+    spellList.innerHTML = '';
+    multiattack.innerHTML = '';
+    reactionSection.classList.add('hidden');
+};
+
+const rollButton = document.getElementById('roll-btn');
+
+rollButton.addEventListener('click', () => {
+    if (!statblockActive) {
+        const prompt = document.getElementById('prompt');
+        const statblock = document.getElementById('statblock');
+
+        rollNPC();
+        generateStatblock();
+
+        prompt.classList.add('hidden');
+        statblock.classList.remove('hidden');
+
+        statblockActive = true;
+    };
+
+    if (statblockActive) {
+        resetStatblock();
+        rollNPC();
+        generateStatblock();
+    };
+});
