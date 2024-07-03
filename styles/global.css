@@ -22,8 +22,16 @@ a:active {
     color: #e60000;
 }
 
+.bg-pink {
+    background-color: pink;
+}
+
 .bold {
     font-weight: 700;
+}
+
+.border-none {
+    border: none
 }
 
 .border-red {
@@ -32,6 +40,10 @@ a:active {
 
 .break {
     margin-bottom: 1rem;
+}
+
+.break-sm {
+    margin-bottom: .5rem;
 }
 
 .btn {
@@ -85,6 +97,14 @@ a:active {
     flex-direction: column;
 }
 
+.font-sans {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.font-serif {
+    font-family: 'Noto Serif', serif;
+}
+
 .font-xs {
     font-size: .5rem;
 }
@@ -109,12 +129,47 @@ a:active {
     font-size: 3rem;
 }
 
+.hidden {
+    display: none;
+}
+
+.hr-red {
+    border-bottom: 1px solid red;
+    padding-bottom: .5rem;
+}
+
+.hr-thick-red {
+    border-bottom: 2px solid red;
+    padding-bottom: .5rem;
+}
+
 input[type=radio] {
     accent-color: red;
 }
 
+input[type=text] {
+    margin: 0 -.5rem;
+    padding: 0 .5rem
+}
+
+input[type=text]:focus {
+    outline: 1px solid red;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
 #logo {
     height: 8rem;
+}
+
+.lowercase {
+    text-transform: lowercase;
 }
 
 .margin {
@@ -142,8 +197,29 @@ input[type=radio] {
     max-width: 640px;
 }
 
+.min-h-screen {
+    min-height: 100dvh;
+}
+
+.outline-none {
+    outline: none;
+}
+
 .padding {
     padding: 1rem;
+}
+
+.padding-y-sm {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.padding-yyx {
+    padding: 2rem 1rem;
+}
+
+.padding-yyyyyx {
+    padding: 5rem 1rem;
 }
 
 .padding-yxx {
@@ -156,6 +232,10 @@ input[type=radio] {
 
 .relative {
     position: relative;
+}
+
+.return-sm {
+    margin-top: .5rem
 }
 
 #roll-btn {
@@ -174,6 +254,18 @@ input[type=radio] {
     background-color: #e60000;
 }
 
+.space {
+    margin-right: 1rem;
+}
+
+.space-xs {
+    margin-right: .25rem;
+}
+
+.space-sm {
+    margin-right:.5rem;
+}
+
 .svg-btn {
     position: absolute;
     top: 1rem;
@@ -190,6 +282,18 @@ input[type=radio] {
     fill: #e60000;
 }
 
+.tab-xs {
+    margin-left:.25rem
+}
+
+.tab-sm {
+    margin-left:.5rem
+}
+
+.tab {
+    margin-left: 1rem;
+}
+
 .text-center {
     text-align: center;
 }
@@ -204,4 +308,41 @@ input[type=radio] {
 
 .w-full {
     width: 100%;
+}
+
+.w-third {
+    width: 33%;
+}
+
+@media only screen and (min-width: 475px) {
+    .xs-space-sm {
+        margin-right: .5rem;
+    }
+
+    .xs-tab-sm {
+        margin-left: .5rem;
+    }
+}
+
+@media only screen and (min-width: 640px) {
+    .sm-break-none {
+        margin-bottom: 0;
+    }
+
+    .sm-flex-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .sm-space {
+        margin-right: 1rem;
+    }
+
+    .sm-tab {
+        margin-left: 1rem;
+    }
+
+    .sm-w-half {
+        width: 50%;
+    }
 }
