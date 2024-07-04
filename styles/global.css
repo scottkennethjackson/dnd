@@ -34,6 +34,10 @@ a:active {
     border: none
 }
 
+.border-grey {
+    border: 1px solid #979aa4;
+}
+
 .border-red {
     border: 1px solid red;
 }
@@ -217,6 +221,11 @@ input[type=text]:focus {
     padding: 1rem;
 }
 
+.padding-x-sm {
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
+
 .padding-y-sm {
     padding-top: .5rem;
     padding-bottom: .5rem;
@@ -260,6 +269,10 @@ input[type=text]:focus {
 
 #roll-btn:active {
     background-color: #e60000;
+}
+
+select:focus {
+    outline: red;
 }
 
 .space {
