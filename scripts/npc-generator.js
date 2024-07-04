@@ -32,6 +32,7 @@ let armorWeight;
 let armorClass;
 let strReq;
 let stealthDis;
+let isOverencumbered;
 let baseHP;
 let conBonus;
 let hitPoints;
@@ -138,8 +139,9 @@ const senses = document.getElementById('senses');
 const lang = document.getElementById('lang');
 const profBonus = document.getElementById('prof-bonus');
 const featSection = document.getElementById('feat-section');
-const stealthDisadvantage = document.getElementById('stealth-disadvantage');
 const racialFeature = document.getElementById('racial-feature');
+const stealthDisadvantage = document.getElementById('stealth-disadvantage');
+const overEncumbered = document.getElementById('over-encumbered');
 const bonusFeature = document.getElementById('bonus-feature');
 const magicResistance = document.getElementById('magic-resistance');
 const spellcastingFeature = document.getElementById('spellcasting-feature');
@@ -353,18 +355,19 @@ const rollNPC = () => {
 
         const rollArmor = () => {
             roll = Math.floor(Math.random() * armorArray.length);
-            strReq = armorArray[roll][3];
         };
 
-        do {
-            rollArmor();
-        } while (str < strReq);
+        rollArmor();
 
         armorType = armorArray[roll][0];
         armorWeight = armorArray[roll][1]
         armorClass = armorArray[roll][2];
         strReq = armorArray[roll][3];
         stealthDis = armorArray[roll][4];
+
+        if (str < strReq) {
+            isOverencumbered = true;
+        };
     };
     
     getArmor();
@@ -1131,7 +1134,11 @@ const generateStatblock = () => {
     };
 
     if (stealthDis) {
-        stealthDisadvantage.innerHTML = `<p class="break-sm"><strong>Stealth Disadvantage.</strong> The ${race} has disadvantage on Stealth checks and Dexterity saving throws.</p>`;
+        stealthDisadvantage.innerHTML = `<p class="break-sm"><strong>Stealth Disadvantage.</strong> The ${race} has disadvantage on Stealth checks.</p>`;
+    };
+
+    if (isOverencumbered) {
+        overEncumbered.innerHTML = `<p class="break-sm"><strong>Over Encumbered.</strong> The ${race} has disadvantage on Dexterity saving throws.</p>`;
     };
 
     if (hasFeat) {
@@ -1164,6 +1171,7 @@ const resetStatblock = () => {
     resistances = ''
     racialFeat = '';
     stealthDis = false;
+    isOverencumbered = false;
     hasFeat = false;
     feat = '';
     hasMagicResistance = false;
@@ -1196,6 +1204,7 @@ const resetStatblock = () => {
     profBonus.innerHTML = '';
     racialFeature.innerHTML = '';
     stealthDisadvantage.innerHTML = '';
+    overEncumbered.innerHTML = '';
     bonusFeature.innerHTML = '';
     magicResistance.innerHTML = '';
     spellcastingFeature.innerHTML = '';
