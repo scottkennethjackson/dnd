@@ -2,10 +2,10 @@ let roll;
 
 const beastDisplay = document.getElementById('beast');
 const linkDisplay = document.getElementById('link');
-const rollButton = document.getElementById('roll-btn');
 const flyingRadio = document.getElementById('flying');
 const swimmingRadio = document.getElementById('swimming');
 const walkingRadio = document.getElementById('walking');
+const rollButton = document.getElementById('roll-btn');
 
 const rollBeast = () => {
     if (flyingRadio.checked) {
