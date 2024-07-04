@@ -32,6 +32,7 @@ let armorWeight;
 let armorClass;
 let strReq;
 let stealthDis;
+let baseAC;
 let isOverencumbered;
 let baseHP;
 let conBonus;
@@ -109,7 +110,6 @@ let rangedDamageType;
 let meleeAction;
 let rangedAction;
 let savingThrow;
-let baseAC;
 let hasShield;
 let sneakAttackDamageDice;
 let hasInitiative;
@@ -364,6 +364,7 @@ const rollNPC = () => {
         armorClass = armorArray[roll][2];
         strReq = armorArray[roll][3];
         stealthDis = armorArray[roll][4];
+        baseAC = armorClass;
 
         if (str < strReq) {
             isOverencumbered = true;
@@ -851,8 +852,7 @@ const rollNPC = () => {
 
     // Get shield status and update armor class
     const addShield = () => {
-        baseAC = armorClass;
-        armorClass = armorClass +=2;
+        return armorClass = baseAC + 2;
     };
 
     if (!isTwoHanded) {
@@ -1168,10 +1168,14 @@ const generateStatblock = () => {
 };
 
 const resetStatblock = () => {
-    resistances = ''
+    hasShield = false;
+    resistances = '';
+    hasDarkvision = false;
     racialFeat = '';
     stealthDis = false;
     isOverencumbered = false;
+    hasInitiative = false;
+    isCooperative = false;
     hasFeat = false;
     feat = '';
     hasMagicResistance = false;
