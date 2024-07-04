@@ -118,6 +118,8 @@ let hasReaction;
 let reaction;
 let statblockActive;
 
+const prompt = document.getElementById('prompt');
+const statblock = document.getElementById('statblock');
 const npcName = document.getElementById('npc-name');
 const description = document.getElementById('description');
 const ac = document.getElementById('ac');
@@ -147,6 +149,11 @@ const meleeAttack = document.getElementById('melee-attack');
 const rangedAttack = document.getElementById('ranged-attack');
 const reactionSection = document.getElementById('reaction-section');
 const moveReaction = document.getElementById('move-reaction');
+const commonerRadio = document.getElementById('commoner');
+const adventurerRadio = document.getElementById('adventurer');
+const heroRadio = document.getElementById('hero');
+const legendRadio = document.getElementById('legend');
+const rollButton = document.getElementById('roll-btn');
 
 const rollD20 = () => {
     return Math.ceil(Math.random() * 20);
@@ -161,11 +168,6 @@ const rollMultiple = (numRolls, diceValue) => {
 };
 
 const rollNPC = () => {
-    const commonerRadio = document.getElementById('commoner');
-    const adventurerRadio = document.getElementById('adventurer');
-    const heroRadio = document.getElementById('hero');
-    const legendRadio = document.getElementById('legend');
-
     const rollLevel = () => {
         // Get NPC level
         if (commonerRadio.checked) {
@@ -751,8 +753,12 @@ const rollNPC = () => {
         versatileDamageDice = array[roll][7];
         isTwoHanded = array[roll][8];
 
-        if (isVersatile) {
+        if (isVersatile && !isThrowable) {
             meleeAction = `<strong>${meleeWeapon}.</strong> <em>Melee Weapon Attack:</em> +${toHit} to hit, reach ${reach}, one target. <em>Hit:</em> ${meleeDamageDice} + ${proficiencyBonus} ${meleeDamageType} damage, or ${versatileDamageDice} + ${proficiencyBonus} ${meleeDamageType} damage if used with two hands.`
+        } else if (isVersatile && isThrowable) {
+            meleeAction = `<strong>${meleeWeapon}.</strong> <em>Melee or Ranged Weapon Attack:</em> +${toHit} to hit, reach ${reach} or range ${thrownRange}, one target. <em>Hit:</em> ${meleeDamageDice} + ${proficiencyBonus} ${meleeDamageType} damage, or ${versatileDamageDice} + ${proficiencyBonus} ${meleeDamageType} damage if used with two hands to make a melee attack.`
+        } else if (!isVersatile && isThrowable) {
+            meleeAction = `<strong>${meleeWeapon}.</strong> <em>Melee or Ranged Weapon Attack:</em> +${toHit} to hit, reach ${reach} or range ${thrownRange}, one target. <em>Hit:</em> ${meleeDamageDice} + ${proficiencyBonus} ${meleeDamageType} damage.`
         } else {
             meleeAction = `<strong>${meleeWeapon}.</strong> <em>Melee Weapon Attack:</em> +${toHit} to hit, reach ${reach}, one target. <em>Hit:</em> ${meleeDamageDice} + ${proficiencyBonus} ${meleeDamageType} damage.`
         }
@@ -1078,7 +1084,7 @@ const rollNPC = () => {
 };
 
 const generateStatblock = () => {
-    npcName.innerHTML = `<input type="text" class="border-none font-serif font-md bold" placeholder="Name Your NPC" value="${characterName}"></input>`;
+    npcName.innerHTML = `<input type="text" class="border-none w-full font-serif font-md bold" placeholder="Name Your NPC" value="${characterName}"></input>`;
     description.innerHTML = `<p class="font-serif italic">${subrace} (${size} Humanoid), Any Alignment</p>`;
 
     if (hasShield) {
@@ -1095,7 +1101,7 @@ const generateStatblock = () => {
     intStats.innerHTML = `<p>${int} (${intMod})</p>`;
     wisStats.innerHTML = `<p>${wis} (${wisMod})</p>`;
     chaStats.innerHTML = `<p>${cha} (${chaMod})</p>`;
-    savingThrows.innerHTML = `<p><span class="bold">Saving Throws</span> ${save1}, ${save2}</p>`
+    savingThrows.innerHTML = `<p><span class="bold">Saving Throws</span> ${save1}, ${save2}</p>`;
 
     if ((proficiency1 == 'Strength' && proficiency2 == 'Constitution') || (proficiency1 == 'Constitution' && proficiency2 == 'Strength')) {
         skills.innerHTML = `<p><span class="bold">Skills</span> ${skill1} +${skill1Mod}</p>`;
@@ -1120,15 +1126,15 @@ const generateStatblock = () => {
         featSection.classList.remove('hidden');
     };
 
-    if (stealthDis) {
-        stealthDisadvantage.innerHTML = `<p class="break-sm"><strong>Stealth Disadvantage.</strong> The ${race} has disadvantage on Stealth checks and Dexterity saving throws.</p>`;
-    };
-
     if (racialFeat) {
         racialFeature.innerHTML = `<p class="break-sm">${racialFeat}</p>`;
     };
 
-    if (feat) {
+    if (stealthDis) {
+        stealthDisadvantage.innerHTML = `<p class="break-sm"><strong>Stealth Disadvantage.</strong> The ${race} has disadvantage on Stealth checks and Dexterity saving throws.</p>`;
+    };
+
+    if (hasFeat) {
         bonusFeature.innerHTML = `<p class="break-sm">${feat}</p>`;
     };
 
@@ -1155,25 +1161,44 @@ const generateStatblock = () => {
 };
 
 const resetStatblock = () => {
-    dmgResistance.innerHTML = '';
+    hasMultiattack = false;
+    hasFeat = false;
+    hasReaction = false;
+
     featSection.classList.add('hidden');
-    stealthDisadvantage.innerHTML = '';
+    reactionSection.classList.add('hidden');
+
+    npcName.innerHTML = '';
+    description.innerHTML = '';
+    ac.innerHTML = '';
+    hp.innerHTML = '';
+    movement.innerHTML = '';
+    strStats.innerHTML = '';
+    dexStats.innerHTML = '';
+    conStats.innerHTML = '';
+    intStats.innerHTML = '';
+    wisStats.innerHTML = '';
+    chaStats.innerHTML = '';
+    savingThrows.innerHTML = ''
+    skills.innerHTML = '';
+    dmgResistance.innerHTML = '';
+    senses.innerHTML = '';
+    lang.innerHTML = '';
+    profBonus.innerHTML = '';
     racialFeature.innerHTML = '';
+    stealthDisadvantage.innerHTML = '';
     bonusFeature.innerHTML = '';
     magicResistance.innerHTML = '';
     spellcastingFeature.innerHTML = '';
     spellList.innerHTML = '';
     multiattack.innerHTML = '';
-    reactionSection.classList.add('hidden');
+    meleeAttack.innerHTML = '';
+    rangedAttack.innerHTML = '';
+    moveReaction.innerHTML = '';
 };
-
-const rollButton = document.getElementById('roll-btn');
 
 rollButton.addEventListener('click', () => {
     if (!statblockActive) {
-        const prompt = document.getElementById('prompt');
-        const statblock = document.getElementById('statblock');
-
         rollNPC();
         generateStatblock();
 
