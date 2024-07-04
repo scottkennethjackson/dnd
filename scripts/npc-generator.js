@@ -1161,9 +1161,18 @@ const generateStatblock = () => {
 };
 
 const resetStatblock = () => {
-    hasMultiattack = false;
+    resistances = ''
+    racialFeat = '';
+    stealthDis = false;
     hasFeat = false;
+    feat = '';
+    hasMagicResistance = false;
+    isSpellcaster = false;
+    spellcasting = '';
+    spells = '';
+    hasMultiattack = false;
     hasReaction = false;
+    reaction = '';
 
     featSection.classList.add('hidden');
     reactionSection.classList.add('hidden');
