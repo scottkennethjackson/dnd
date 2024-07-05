@@ -21,17 +21,23 @@ const rollLoot = () => {
 
         itemDisplay.innerHTML = `You Didn't Find Anything`;
         linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
-    } else if (roll1 <= 35) {
-        roll2 = Math.floor(Math.random() * common.length);
-        console.log('Category: Common');
-
-        itemDisplay.innerHTML = `${common[roll2][0]}`;
-        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${common[roll2][1]}" id="link" target="_blank">View Item</a>`;
-    } else if (roll1 <= 50) {
+    } else if (roll1 <= 20) {
         console.log('Category: Gold');
 
         rollGold();
-    } else if (roll1 <= 60) {
+    } else if (roll1 <= 30) {
+        roll2 = Math.floor(Math.random() * gemstone.length);
+        console.log('Category: Gemstone');
+
+        itemDisplay.innerHTML = `${gemstone[roll2]}`;
+        linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
+    } else if (roll1 <= 40) {
+        roll2 = Math.floor(Math.random() * treasure.length);
+        console.log('Category: Treasure');
+
+        itemDisplay.innerHTML = `${treasure[roll2]}`;
+        linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
+    } else if (roll1 <= 50) {
         roll2 = rollD4();
         console.log('Category: Health Potion');
 
@@ -42,12 +48,72 @@ const rollLoot = () => {
         }
 
         linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/magic-items/4708-potion-of-healing" id="link" target="_blank">View Item</a>`;
-    } else if (roll1 <= 70) {
+    } else if (roll1 <= 60) {
         roll2 = Math.floor(Math.random() * consumable.length);
         console.log('Category: Consumable');
 
         itemDisplay.innerHTML = `${consumable[roll2][0]}`;
         linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${consumable[roll2][1]}" id="link" target="_blank">View Item</a>`;
+    } else if ( roll1 == 61) {
+        roll2 = Math.floor(Math.random() * cantrips.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, Cantrip - ${cantrips[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${cantrips[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 62) {
+        roll2 = Math.floor(Math.random() * spells1st.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 1st Level - ${spells1st[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells1st[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 63) {
+        roll2 = Math.floor(Math.random() * spells2nd.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 2nd Level - ${spells2nd[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells2nd[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 64) {
+        roll2 = Math.floor(Math.random() * spells3rd.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 3rd Level - ${spells3rd[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells3rd[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 65) {
+        roll2 = Math.floor(Math.random() * spells4th.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 4th Level - ${spells4th[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells4th[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 66) {
+        roll2 = Math.floor(Math.random() * spells5th.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 5th Level - ${spells5th[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells5th[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 67) {
+        roll2 = Math.floor(Math.random() * spells6th.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 6th Level - ${spells6th[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells6th[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 68) {
+        roll2 = Math.floor(Math.random() * spells7th.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 7th Level - ${spells7th[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells7th[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 69) {
+        roll2 = Math.floor(Math.random() * spells8th.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 8th Level - ${spells8th[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells8th[roll2][1]}" id="link" target="_blank">View Spell</a>`;
+    } else if ( roll1 == 70) {
+        roll2 = Math.floor(Math.random() * spells9th.length);
+        console.log('Category: Spell Scroll');
+
+        itemDisplay.innerHTML = `Spell Scroll, 9th Level - ${spells9th[roll2][0]}`;
+        linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${spells9th[roll2][1]}" id="link" target="_blank">View Spell</a>`;
     } else if (roll1 <= 86) {
         roll2 = Math.floor(Math.random() * uncommon.length);
         console.log('Category: Uncommon');
@@ -72,7 +138,7 @@ const rollLoot = () => {
 
         itemDisplay.innerHTML = `${legendary[roll2][0]}`;
         linkDisplay.innerHTML = `<a href="https://www.dndbeyond.com/${legendary[roll2][1]}" id="link" target="_blank">View Item</a>`;
-    }
+    };
 };
 
 rollButton.addEventListener('click', () => {
