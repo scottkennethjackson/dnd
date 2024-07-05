@@ -2,10 +2,6 @@ const rollD4 = () => {
     return Math.ceil(Math.random() * 4);
 };
 
-const rollD6 = () => {
-    return Math.ceil(Math.random() * 6);
-};
-
 const rollD100 = () => {
     return Math.ceil(Math.random() * 100);
 };
@@ -19,7 +15,7 @@ const rollMultiple = (numRolls, diceValue) => {
 };
 
 const rollGold = () => {
-    roll2 = Math.ceil(Math.random() * 17);
+    roll2 = Math.ceil(Math.random() * 20);
     
     if (roll2 <= 4) {
         roll3 = rollD100();
@@ -83,7 +79,7 @@ const rollGold = () => {
             itemDisplay.innerHTML = `${gp} GP`;
             linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
         } else {
-            gp = ((rollMultiple(2, 6) * 10) + (rollMultiple(3, 6) * 10)) * 10;
+            gp = (rollMultiple(2, 6) * 10) + (rollMultiple(3, 6) * 10);
             console.log(`${gp} GP`);
 
             itemDisplay.innerHTML = `${gp} GP`;
@@ -105,13 +101,13 @@ const rollGold = () => {
             itemDisplay.innerHTML = `${gp} GP`;
             linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
         } else if (roll3 <= 75) {
-            gp = ((rollMultiple(2, 6) * 100) + (rollMultiple(1, 6) * 10)) * 10;
+            gp = (rollMultiple(2, 6) * 100) + ((rollMultiple(1, 6) * 10) * 10);
             console.log(`${gp} GP`);
 
             itemDisplay.innerHTML = `${gp} GP`;
             linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
         } else {
-            gp = ((rollMultiple(2, 6) * 100) + (rollMultiple(2, 6) * 10)) * 10;
+            gp = (rollMultiple(2, 6) * 100) + ((rollMultiple(2, 6) * 10) * 10);
             console.log(`${gp} GP`);
 
             itemDisplay.innerHTML = `${gp} GP`;
@@ -127,13 +123,13 @@ const rollGold = () => {
             itemDisplay.innerHTML = `${gp} GP`;
             linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
         } else if (roll3 <= 55) {
-            gp = ((rollMultiple(1, 6) * 1000) + (rollMultiple(1, 6) * 100)) * 10;
+            gp = (rollMultiple(1, 6) * 1000) + ((rollMultiple(1, 6) * 100) * 10);
             console.log(`${gp} GP`);
 
             itemDisplay.innerHTML = `${gp} GP`;
             linkDisplay.innerHTML = `<a href="#" id="link"></a>`;
         } else {
-            gp = ((rollMultiple(1, 6) * 1000) + (rollMultiple(2, 6) * 100)) * 10;
+            gp = (rollMultiple(1, 6) * 1000) + ((rollMultiple(2, 6) * 100) * 10);
             console.log(`${gp} GP`);
 
             itemDisplay.innerHTML = `${gp} GP`;
