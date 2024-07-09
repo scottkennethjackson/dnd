@@ -108,7 +108,7 @@ const treasure = [
     ['Gold Jewelry Box with Platinum Filigree (7500 GP)'],
     [`Painted Gold Child's Sarcophagus (7500 GP)`],
     ['Jade Game Board with Solid Gold Playing Pieces (7500 GP)'],
-    ['Bejeweled Ivory Drinking Horn with Gold Filigree 7500( GP)']
+    ['Bejeweled Ivory Drinking Horn with Gold Filigree (7500 GP)']
 ];
 
 const consumable = [
